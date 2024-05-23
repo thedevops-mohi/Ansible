@@ -18,10 +18,10 @@
   
   - name: Copying collected log to Nokia SFTP Server
     copy:
-      src: /Users/mohammed/Documents/Ansible/mylog-*
-      dest: /home/mohi
-      owner: mohi
-      group: mohi
+      src: /Users/[username goes here]/Documents/Ansible/mylog-*
+      dest: /home/[username goes here]
+      owner: [username goes here]
+      group: [username goes here]
       mode: '0644'
     
       

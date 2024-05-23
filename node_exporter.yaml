@@ -20,8 +20,8 @@
   tasks:
     - name: unpacking file on server....
       unarchive:
-        src: /home/mohi/node_exporter-1.3.1.linux-amd64.tar.gz
-        dest: /home/mohi/
+        src: /home/$USER/node_exporter-1.3.1.linux-amd64.tar.gz
+        dest: /home/$USER/
         remote_src: yes 
 
 - name: Create Node Exporter User and Group
@@ -43,7 +43,7 @@
   tasks:
     - name: Copying Node Exporter to /usr/local/bin
       copy:
-        src: /home/mohi/node_exporter-1.3.1.linux-amd64/node_exporter
+        src: /home/$USER/node_exporter-1.3.1.linux-amd64/node_exporter
         dest: /usr/local/bin/
         owner: node_exporter
         group: node_exporter
@@ -56,7 +56,7 @@
   tasks:
     - name: Creating Node Exporter Service 
       copy: 
-        src: /Users/mohammed/Documents/Ansible/node_exporter.service
+        src: /Users/$USER/Documents/Ansible/node_exporter.service
         dest: /etc/systemd/system/
         owner: node_exporter
         group: node_exporter
