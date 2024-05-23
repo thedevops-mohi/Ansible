@@ -1,0 +1,58 @@
+---
+- name: Converting Centos 7.9 to RHEL 7.9
+  hosts: jenkins
+  become: true
+  vars_files: variables
+  tasks:
+  - name: Downloading the Red Hat GPG key
+    get_url:
+      url: https://www.redhat.com/security/data/fd431d51.txt
+      dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+  - name: Creating Certificate Directory
+    shell: mkdir -p /etc/rhsm/ca/
+    
+  - name: Downloading the Red Hat Certificate
+    get_url:
+      url: https://ftp.redhat.com/redhat/convert2rhel/redhat-uep.pem
+      dest: /etc/rhsm/ca/redhat-uep.pem
+      mode: '0660'
+
+  - name: Adding convert2rhel repository
+    yum_repository:
+      name: convert2rhel-for-rhel-7-rpms
+      description: Convert2RHEL for OS 7
+      file: convert2rhel
+      baseurl: https://cdn-public.redhat.com/content/public/addon/dist/convert2rhel/server/7/7Server/x86_64/os/
+      gpgcheck: yes
+      gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+  - name: Installing update
+    yum:
+     name: '*'
+     state: latest
+     update_cache: yes
+
+  - name: Rebooting system
+    reboot:  
+
+  - name: Installing convert2rhel
+    yum:
+     name: convert2rhel
+     state: latest
+
+  - name: Converting Centos to RHEL
+    command: convert2rhel -u {{lookup("env", "USERNAME")}} -p {{lookup("env", "PASSWORD")}} -o {{org}} -a -k {{activationkey}}  --debug -y
+    register: app_status
+  - debug: msg={{app_status.stdout_lines}} 
+
+  - name: Rebooting system
+    reboot: 
+
+  - name: Verifying Conversion
+    shell: hostnamectl
+    register: app_status
+  - debug: msg={{app_status.stdout_lines}}
+
+
+  
+  

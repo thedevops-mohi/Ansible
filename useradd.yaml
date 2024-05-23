@@ -1,0 +1,61 @@
+---
+- name: Creating credential for VA Scan
+  hosts: convert2rhel-tool
+  become: true
+  vars_files: variables
+  tasks:
+  - name: Adding New User
+    user:
+      name: svcscan
+      shell: /bin/bash
+      groups: root
+      append: yes
+  - name: Creating SSH Directory
+    file:
+      path: /home/svcscan/.ssh
+      state: directory
+      recurse: no
+      owner: svcscan 
+  - name: Creating SSH Authorized Key file
+    file:
+      path: "/home/svcscan/.ssh/authorized_keys"
+      owner: svcscan
+      state: touch
+  - name: Copying Public Key
+    lineinfile:
+      path: "/home/svcscan/.ssh/authorized_keys"
+      line: "{{pub_key}}"
+      insertbefore: BOF
+  - name: Verifying SSH Key 
+    command: cat /home/svcscan/.ssh/authorized_keys
+    register: app_status
+  - debug: msg={{app_status.stdout_lines}}
+  - name: Changing SSH Directory Permission
+    file:
+      path: /home/svcscan/.ssh/
+      state: directory
+      mode: '700'
+  - name: Changing SSH Authorized Key Permission
+    file:
+      path: /home/svcscan/.ssh/authorized_keys
+      mode: '600'
+  - name: Changing SSH directory Ownership
+    file:
+      path: /home/svcscan/.ssh/
+      owner: svcscan 
+      group: root
+      recurse: yes
+  - name: Insert multiple lines using Ansible
+    blockinfile:
+      path: /etc/ssh/sshd_config
+      block: |
+         Match User svcscan
+           PasswordAuthentication no 
+      backup: yes
+  - name: Restart SSH service 
+    service:
+      name: sshd
+      state: restarted
+  
+
+  

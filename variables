@@ -1,0 +1,10 @@
+date: 230928
+local_dest: "/Users/[username here goes]/Documents/Ansible/"
+
+username: [Username goes here]
+password: [Password goes here]
+org: [organization goes here]
+activationkey: [activation key goes here]
+
+pub_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCl3v7qtNJSruK8qrqk+Ej/N04vYgT2tpSuUd1j5t6EV/hVzUhOy4Qcvn1L8w785xiskRbaGoADqleySEf7PLTea2+cHsTpWAaTtGJVCvQqVIxwLR5G5nYaR9wHRPqHV8WVdip0EnNBYUjKG8djT28iSGA6kYOU4mMbYmfHgGDitCvqKLvLes7PMcoe/x1KLa3iXLFI6ltwPRiyoTo3V/Pth4a+Pl922IDuYT6CkIB8e/XxpqKE9aZYUoh5OYZgDJ6TK+zmLW+907UUI8agYmTvD3/7F/GH1DaLr+xllpPoOCzqi3POkV9KuoBMeAAL3BIt+yatipdzWxV+eG+2muRICo0VwqSZhif5A42kYy5+gWzdc6w2jlsxH/EqdHY6qpZlOWDAmK1jL4+eAVMaoRdzTWZqzGItdY1wLr1NjjyMzQDzvGLc+l2fVJ2Q53vo+ppjV4qKzkFpKGv3M2cCT3QQtpD00WB7x5D8z5Cxnmgsu9Uakh5x98VZqD5XfvFoqcU= mohammed@Mohammeds-MacBook-Pro-2.local"
+user: "svcscan"

@@ -1,0 +1,27 @@
+---
+- hosts: all
+  vars_files:
+   - variables
+  tasks:
+  - name: Generating Log on VSD
+    command: /opt/vsd/install/collectlog.sh -l /backup -d 1  
+
+  - name: Getting Log file name
+    shell: (ls /backup/) | grep {{ date }}
+    register: command_output
+  
+  - name: Copying collected log on to your computer 
+    fetch:
+      src: /backup/{{ command_output.stdout }}
+      dest: "{{ local_dest }}"
+      flat: yes
+  
+  - name: Copying collected log to Nokia SFTP Server
+    copy:
+      src: /Users/mohammed/Documents/Ansible/mylog-*
+      dest: /home/mohi
+      owner: mohi
+      group: mohi
+      mode: '0644'
+    
+      

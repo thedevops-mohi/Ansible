@@ -1,0 +1,51 @@
+---
+- name: Installation of Grafana On Ubuntu Server
+  hosts: ubuntu
+  become: true
+  tasks:
+  - name: download apt apt-key
+    apt_key:
+      url: https://packages.grafana.com/gpg.key
+      state: absent
+  - name: add grafana add grafana repository
+    apt_repository:
+      repo: deb https://packages.grafana.com/oss/deb stable main
+      state: absent  
+  - name: update system
+    apt:
+     update_cache: yes
+  - name: install grafana
+    apt:
+      name: grafana
+      state: absent
+  - name: start grafana service
+    service:
+      name: grafana-server
+      state: stopped
+  - name: check grafana service status
+    shell: systemctl status grafana-server
+    register: app_status
+  - debug: msg={{app_status.stdout_lines}}  
+  - name: check date
+    command: cat resolv.conf
+    args:
+     chdir: /etc/
+    register: app_status
+  - debug: msg={{app_status.stdout_lines}}
+
+
+
+
+
+
+
+
+
+
+# wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+# sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+# sudo apt update
+# sudo apt install grafana
+# sudo systemctl start grafana-server
+# sudo systemctl status grafana-server
+
